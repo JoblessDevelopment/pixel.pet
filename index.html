@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Pet Care</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #ffb732, #ff2f2f); /* Kırmızıdan sarıya giden gradyan */
+            text-align: center;
+            color: white;
+            padding-bottom: 50px; /* Footer'ı düzgün konumlandırmak için alt boşluk */
+            height: 100vh; /* Sayfa boyutunu tam doldurmak için */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* İçeriği ve footer'ı ayarlamak için */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+
+        .pet {
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #ff8f00;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            margin: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff5e00;
+        }
+
+        .status {
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+
+        footer {
+            margin-top: 30px;
+            color: #ffd700;
+            font-size: 0.9em;
+            position: fixed; /* Sayfa altında sabit konum */
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7); /* Footer arka planı koyulaştırıldı */
+        }
+
+        footer a {
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Pixel Pet Care</h1>
+        <div class="pet">
+            <canvas id="petCanvas" width="300" height="300"></canvas>
+        </div>
+
+        <div class="controls">
+            <button id="feedBtn">Feed Pet</button>
+            <button id="playBtn">Play with Pet</button>
+            <button id="sleepBtn">Put to Sleep</button>
+        </div>
+
+        <div class="status">
+            <p>Happiness: <span id="happiness">50</span></p>
+            <p>Hunger: <span id="hunger">50</span></p>
+            <p>Energy: <span id="energy">50</span></p>
+        </div>
+    </div>
+
+    <footer>Created by Jobless</footer>
+
+    <script>
+        let happiness = 50;
+        let hunger = 50;
+        let energy = 50;
+
+        const happinessElement = document.getElementById('happiness');
+        const hungerElement = document.getElementById('hunger');
+        const energyElement = document.getElementById('energy');
+        const petCanvas = document.getElementById('petCanvas');
+        const ctx = petCanvas.getContext('2d');
+
+        // Evcil hayvanın görüntüsünü çizme (Retro Pixel Art)
+        const drawPet = () => {
+            ctx.clearRect(0, 0, petCanvas.width, petCanvas.height);
+            ctx.fillStyle = 'pink';
+            ctx.fillRect(100, 100, 100, 100); // Evcil hayvan kare şeklinde
+            ctx.fillStyle = 'black';
+            ctx.fillRect(120, 120, 20, 20); // Gözler
+            ctx.fillRect(160, 120, 20, 20);
+        };
+
+        // Durum güncelleme
+        const updateStatus = () => {
+            happinessElement.textContent = happiness;
+            hungerElement.textContent = hunger;
+            energyElement.textContent = energy;
+        };
+
+        // Evcil hayvanı besleme
+        const feedPet = () => {
+            hunger = Math.max(0, hunger - 10);
+            happiness = Math.min(100, happiness + 10);
+            energy = Math.max(0, energy - 5);
+            updateStatus();
+        };
+
+        // Evcil hayvanla oyun oynama
+        const playWithPet = () => {
+            happiness = Math.min(100, happiness + 15);
+            energy = Math.max(0, energy - 10);
+            updateStatus();
+        };
+
+        // Evcil hayvanı uyutma
+        const putToSleep = () => {
+            energy = Math.min(100, energy + 20);
+            happiness = Math.max(0, happiness - 5);
+            updateStatus();
+        };
+
+        // Buton etkileşimleri
+        document.getElementById('feedBtn').addEventListener('click', feedPet);
+        document.getElementById('playBtn').addEventListener('click', playWithPet);
+        document.getElementById('sleepBtn').addEventListener('click', putToSleep);
+
+        // Başlangıçta evcil hayvanı çizme ve durumu güncelleme
+        drawPet();
+        updateStatus();
+    </script>
+
+</body>
+</html>
